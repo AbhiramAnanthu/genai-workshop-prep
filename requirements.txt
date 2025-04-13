@@ -2,3 +2,5 @@ google-genai
 pinecone
 python-dotenv
 pypdf
+pymongo
+pytz
