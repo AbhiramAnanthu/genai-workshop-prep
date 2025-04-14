@@ -14,6 +14,7 @@ connection_uri = os.getenv("MONGODB")
 def connect_db():
     try:
         client = MongoClient(connection_uri)
+        print("[Connected] MongoDB client connected")
         return client
 
     except Exception as e:
@@ -23,6 +24,7 @@ def connect_db():
 def connect_genai_client():
     try:
         client = genai.Client(api_key=google_api_key)
+        print("[Connected] Connected to Google AI Studio")
         return client
     except Exception as e:
         print(f"Genai exception: {e}")
@@ -31,6 +33,7 @@ def connect_genai_client():
 def connect_pinecone():
     try:
         pc = Pinecone(api_key=pinecone_api_key)
+        print("[Connected] Connected Pinecone")
         return pc
     except Exception as e:
         print(f"Pinecone exception: {e}")

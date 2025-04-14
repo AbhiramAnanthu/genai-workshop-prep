@@ -11,7 +11,7 @@ config = types.GenerateContentConfig(
 
 def retriever(query: str, category: str):
     top_10_records = retrieve_relevant_records(
-        index=index, query=query, namespace="test-namespace", category=category
+        index=index, query=query, namespace="test-namespace"
     )
     retriever_text = preprocessing(top_10_records)
 
@@ -21,7 +21,9 @@ def retriever(query: str, category: str):
 def text_chat(message: str, user_id: str):
     history = fetch_history(mongo_client=mongo_client, user_id=user_id)
 
-    chat = genai_client.chats.create(config=config, history=history)
+    chat = genai_client.chats.create(
+        config=config, history=history, model="gemini-1.5-flash"
+    )
 
     retrieve_output = retriever(message, category="question_paper")
     prompt = CHAT_TEMPLATE.format(reference=retrieve_output, prompt=message)
@@ -32,4 +34,5 @@ def text_chat(message: str, user_id: str):
 
     create_history(updated_history, mongo_client, user_id)
 
+    print(response.text)
     return response.text

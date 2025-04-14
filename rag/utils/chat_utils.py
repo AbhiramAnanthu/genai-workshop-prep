@@ -1,7 +1,7 @@
 # from ..config import connect_pinecone
 
 
-def retrieve_relevant_records(index, query, namespace, category):
+def retrieve_relevant_records(index, query, namespace):
     try:
         results = index.search(
             namespace=namespace,
@@ -10,7 +10,6 @@ def retrieve_relevant_records(index, query, namespace, category):
                 "inputs": {
                     "text": query,
                 },
-                "filter": {"category": category},
             },
         )
         return results
@@ -22,7 +21,7 @@ def preprocessing(query_result):
     text_list = [
         page["fields"]["text"]
         for page in query_result["result"]["hits"]
-        if page["fields"]["category"] == "question_paper"
+        # if page["fields"]["category"] == "question_paper"
     ]
     for index, page in enumerate(text_list):
         start_index = page.find("PART")
